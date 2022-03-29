@@ -51,4 +51,4 @@ func TestReadIntoBuffer(t *testing.T) {
 	conn.Close()
 }
 
-// for å kjøre må vi : go test -v -run
+// for å kjøre må vi : go test -v -run ReadIntoBuffer
