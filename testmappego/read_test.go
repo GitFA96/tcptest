@@ -28,13 +28,14 @@ func TestReadIntoBuffer(t *testing.T) {
 			return
 		}
 		defer conn.Close()
+
 		_, err = conn.Write(payload)
 		if err != nil {
 			t.Error(err)
 		}
 	}()
 
-	conn, err := net.Dail("tcp", listener.Addr().String())
+	conn, err := net.Dial("tcp", listener.Addr().String())
 	buf := make([]byte, 1<<19) // 512 KiB
 	for {
 		n, err := conn.Read(buf)
@@ -49,3 +50,5 @@ func TestReadIntoBuffer(t *testing.T) {
 	}
 	conn.Close()
 }
+
+// for å kjøre må vi : go test -v -run
