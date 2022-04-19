@@ -1,10 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"net"
-
-	"fmt"
 )
 
 func main() {
@@ -13,7 +12,8 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-
+	defer conn.Close()
+	fmt.Println("Hei jeg er i kontakt")
 	buf := make([]byte, 1<<19) // 512 KiB
 	for {
 		n, err := conn.Read(buf)
@@ -25,7 +25,9 @@ func main() {
 			break
 		}
 		fmt.Printf("read %d bytes\n", n)
+
 	}
 	conn.Close()
+	fmt.Println("Hei jeg er avsluttet")
 
 }

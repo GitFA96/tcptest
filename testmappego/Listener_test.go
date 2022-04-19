@@ -42,3 +42,47 @@ func TestListener(t *testing.T) { //Listen er lyttende metode for server modifis
 // i powershell  kan ta med -v for å få med verbal(tekst)
 // (lokal port) 127.0.0.1: (53299) kommer fra opperativsystemet nytt -- kan velge selv port man da må man lukke egen kode
 // https://pkg.go.dev/net -- nett ressurser
+
+/**
+træsj kode
+
+
+
+	done := make(chan struct{})
+	go func() {
+		defer func() {
+			done <- struct{}{}
+		}()
+
+		for {
+			conn, err := listener.Accept()
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			go func(c net.Conn) {
+				defer func() {
+					c.Close()
+					done <- struct{}{}
+				}()
+				buf := make([]byte, 1024)
+				for {
+					n, err := c.Read(buf)
+					if err != nil {
+						if err != io.EOF {
+							fmt.Println(err)
+						}
+						return
+					}
+					fmt.Printf("recived : %q", buf[:n])
+				}
+
+				_, err = conn.Write(payload)
+				if err != nil {
+					fmt.Println(err)
+				}
+			}(conn)
+		}
+	}()
+	<-done
+*/
